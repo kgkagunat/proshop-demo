@@ -12,5 +12,8 @@
     "url": "\t"
   },
   "author": "Kamauliola Agunat",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
