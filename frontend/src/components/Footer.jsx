@@ -7,11 +7,13 @@ const Footer = () => {
   return (
     <footer>
         <Container>
+
             <Row>
                 <Col className='text-center py-3'>
                     <p> ProShop © {currentYear} All Rights Reserved</p>
                 </Col>
             </Row>
+            
         </Container>
     </footer>
   )
