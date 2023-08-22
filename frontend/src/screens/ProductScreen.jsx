@@ -1,30 +1,22 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button} from 'react-bootstrap'
 import Rating from '../components/Rating'
-import axios from 'axios'
+import { useGetProductDetailsQuery } from '../slices/productsApiSlice'
 
 const ProductScreen = () => {
-  const [product, setProduct] = useState([]); // State for Products
-
   const { id: productId } = useParams();
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await axios.get(`/api/products/${productId}`); // Fetch Products from backend
-      setProduct(data); // Set Products in state
-    };
-    fetchProduct(); // Fetch Products
-  }, [productId]);
- 
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
 
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>Go Back</Link>
-      <Row>
 
+      { isLoading ? (<h2>Loading...</h2>) : error ? (<div> {error?.data?.message || error.error}</div>) : 
+      (<>
+      <Row>
         {/* Image */}
         <Col md={5}> 
           <Image src={product.image} alt={product.name} fluid/>
@@ -61,20 +53,20 @@ const ProductScreen = () => {
               </ListGroup.Item>
 
               <ListGroup.Item>
-                <button 
+                <Button 
                 className="btn-block" 
                 type='button' 
                 disabled={product.countInStock === 0}
                 >
                   Add to Cart
-                </button>
+                </Button>
               </ListGroup.Item>
 
             </ListGroup>
           </Card>
         </Col>
-
       </Row>
+      </>) }
     </>
   )
 }
